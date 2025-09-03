@@ -31,12 +31,12 @@ function ChatBar({ onSend }) {
   };
 
   return (
-    <div className="w-full flex justify-center items-center py-4 bg-gray-50">
-      <div className="bg-white shadow-lg rounded-xl p-4 w-full max-w-xl flex flex-col">
-        <div className="flex gap-2">
+    <div className="w-full flex justify-center items-center py-4">
+      <div className="w-full max-w-xl flex flex-col">
+        <div className="bg-white rounded-xl shadow p-2 flex gap-2">
           <textarea
             ref={textareaRef}
-            className="resize-none border rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-800 flex-1"
+            className="resize-none border-none rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-800 flex-1 bg-transparent"
             rows={1}
             value={message}
             onChange={handleInput}

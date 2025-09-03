@@ -1,6 +1,6 @@
 function Sidebar({ chats, currentChatId, onSelectChat, onNewChat }) {
   return (
-    <div className="bg-gray-900 text-white w-64 fixed top-0 left-0 h-screen flex flex-col p-4 shadow-lg z-10">
+    <div className="bg-gray-900 text-white w-64 fixed top-0 left-0 h-full flex flex-col p-4 shadow-lg z-10">
       <button
         className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded mb-4"
         onClick={onNewChat}

@@ -40,14 +40,14 @@ function App() {
   };
 
   return (
-    <div className="flex h-screen">
+    <div className="flex h-full">
       <Sidebar
         chats={chats}
         currentChatId={currentChatId}
         onSelectChat={handleSelectChat}
         onNewChat={handleNewChat}
       />
-      <div className="flex-1 flex flex-col bg-gray-50 relative">
+      <div className="ml-64 flex flex-col bg-gray-200 relative flex-1" style={{ height: 'calc(100vh - 64px)' }}>
         {/* Mensajes alineados a la derecha y scroll automático */}
         <div className="flex-1 flex flex-col items-end px-4 overflow-y-auto" style={{ maxHeight: 'calc(100vh - 100px)' }}>
           {currentChat.messages.map((msg, idx) => (
