@@ -1,9 +1,8 @@
 import { useState, useRef } from "react";
 
-function ChatBar({ onSend, messages }) {
+function ChatBar({ onSend }) {
   const [message, setMessage] = useState("");
   const textareaRef = useRef(null);
-  const chatEndRef = useRef(null);
 
   // Ajusta la altura del textarea automáticamente
   const handleInput = (e) => {
@@ -21,11 +20,6 @@ function ChatBar({ onSend, messages }) {
       if (textareaRef.current) {
         textareaRef.current.style.height = "48px";
       }
-      setTimeout(() => {
-        if (chatEndRef.current) {
-          chatEndRef.current.scrollIntoView({ behavior: "smooth" });
-        }
-      }, 100);
     }
   };
 
@@ -37,20 +31,8 @@ function ChatBar({ onSend, messages }) {
   };
 
   return (
-    <div className="flex justify-center items-center h-screen bg-gray-50">
+    <div className="w-full flex justify-center items-center py-4 bg-gray-50">
       <div className="bg-white shadow-lg rounded-xl p-4 w-full max-w-xl flex flex-col">
-        {/* Historial de mensajes */}
-        <div className="flex flex-col gap-2 mb-4 overflow-y-auto" style={{ maxHeight: "350px" }}>
-          {messages.map((msg, idx) => (
-            <div key={idx} className={msg.role === "user" ? "self-end" : "self-start"}>
-              <div className={msg.role === "user" ? "bg-blue-100 text-blue-900 rounded-lg px-3 py-2" : "bg-gray-200 text-gray-800 rounded-lg px-3 py-2"}>
-                {msg.text}
-              </div>
-            </div>
-          ))}
-          <div ref={chatEndRef} />
-        </div>
-        {/* Barra de chat */}
         <div className="flex gap-2">
           <textarea
             ref={textareaRef}

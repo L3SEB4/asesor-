@@ -1,11 +1,12 @@
 import './App.css'
 import ChatBar from './components/ChatBar'
 import Sidebar from './components/Sidebar'
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 
 function App() {
   const [chats, setChats] = useState([{ id: 1, messages: [] }]);
   const [currentChatId, setCurrentChatId] = useState(1);
+  const chatEndRef = useRef(null);
 
   // Encuentra el chat actual o crea uno nuevo si no existe
   const currentChat = chats.find(c => c.id === currentChatId) || { id: currentChatId, messages: [] };
@@ -19,6 +20,11 @@ function App() {
           : c
       );
     });
+    setTimeout(() => {
+      if (chatEndRef.current) {
+        chatEndRef.current.scrollIntoView({ behavior: "smooth" });
+      }
+    }, 100);
   };
 
   // Maneja la creación de un nuevo chat
@@ -41,11 +47,24 @@ function App() {
         onSelectChat={handleSelectChat}
         onNewChat={handleNewChat}
       />
-      <div className="flex-1">
-        <ChatBar
-          onSend={handleSend}
-          messages={currentChat.messages || []}
-        />
+      <div className="flex-1 flex flex-col bg-gray-50 relative">
+        {/* Mensajes alineados a la derecha y scroll automático */}
+        <div className="flex-1 flex flex-col items-end px-4 overflow-y-auto" style={{ maxHeight: 'calc(100vh - 100px)' }}>
+          {currentChat.messages.map((msg, idx) => (
+            <div key={idx} className="w-full flex justify-end mb-4">
+              <div className="bg-blue-100 text-blue-900 rounded-lg px-4 py-3 max-w-xl text-right shadow">
+                {msg.text}
+              </div>
+            </div>
+          ))}
+          <div ref={chatEndRef} />
+        </div>
+        {/* Barra de chat centrada en la ventana del chat, no en toda la pantalla */}
+        <div className="absolute bottom-8 left-0 w-full flex justify-center">
+          <div className="w-full max-w-xl">
+            <ChatBar onSend={handleSend} />
+          </div>
+        </div>
       </div>
     </div>
   );
