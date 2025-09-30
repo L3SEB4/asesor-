@@ -49,10 +49,10 @@ function App() {
       />
       <div className="ml-64 flex flex-col bg-gray-200 relative flex-1" style={{ height: 'calc(100vh - 64px)' }}>
         {/* Mensajes alineados a la derecha y scroll automático */}
-        <div className="flex-1 flex flex-col items-end px-4 overflow-y-auto" style={{ maxHeight: 'calc(100vh - 100px)' }}>
+        <div className="flex-1 flex flex-col items-end px-4 overflow-y-auto" style={{ maxHeight: 'calc(100vh - 180px)' }}>
           {currentChat.messages.map((msg, idx) => (
             <div key={idx} className="w-full flex justify-end mb-4">
-              <div className="bg-blue-100 text-blue-900 rounded-lg px-4 py-3 max-w-xl text-right shadow">
+              <div className="bg-blue-100 text-blue-900 rounded-lg px-4 py-3 max-w-xl text-right shadow break-words whitespace-pre-line inline-block">
                 {msg.text}
               </div>
             </div>
