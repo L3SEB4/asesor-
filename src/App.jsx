@@ -3,6 +3,24 @@ import ChatBar from './components/ChatBar'
 import Sidebar from './components/Sidebar'
 import { useState, useRef } from 'react';
 
+// Función para enviar el mensaje a la función de Firebase y obtener la respuesta de la IA
+async function sendMessageToAI(message) {
+  try {
+    const response = await fetch(
+      'https://us-central1-asessor-ec9b6.cloudfunctions.net/chatWithAI',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message })
+      }
+    );
+    const data = await response.json();
+    return data.reply || 'Sin respuesta de la IA';
+  } catch (error) {
+    return 'Error al conectar con la IA';
+  }
+}
+
 function App() {
   const [chats, setChats] = useState([{ id: 1, messages: [] }]);
   const [currentChatId, setCurrentChatId] = useState(1);
@@ -12,11 +30,26 @@ function App() {
   const currentChat = chats.find(c => c.id === currentChatId) || { id: currentChatId, messages: [] };
 
   // Maneja el envío de mensajes
-  const handleSend = (msg) => {
+  const handleSend = async (msg) => {
     setChats(prev => {
       return prev.map(c =>
         c.id === currentChatId
           ? { ...c, messages: [...(c.messages || []), { role: 'user', text: msg }] }
+          : c
+      );
+    });
+    setTimeout(() => {
+      if (chatEndRef.current) {
+        chatEndRef.current.scrollIntoView({ behavior: "smooth" });
+      }
+    }, 100);
+
+    // Llama a la función de Firebase y agrega la respuesta de la IA
+    const aiReply = await sendMessageToAI(msg);
+    setChats(prev => {
+      return prev.map(c =>
+        c.id === currentChatId
+          ? { ...c, messages: [...(c.messages || []), { role: 'assistant', text: aiReply }] }
           : c
       );
     });
